@@ -1,6 +1,8 @@
-import Card from "../components/card";
+import Router from "next/router";
+import Card from "../../components/card";
+import prisma from "../../lib/prisma";
 
-const Order = () => {
+const Order = ({ menu }) => {
   const coffeeTypes = [{ type: "Coffee" }, { type: "Soda" }, { type: "Tea" }];
 
   const coffees = [
@@ -12,6 +14,10 @@ const Order = () => {
     { name: "Peach Soda", type: "soda" },
     { name: "Thai tea", type: "tea" },
   ];
+
+  const handleClick = (id) => {
+    Router.push(`/order/${id}`);
+  };
 
   return (
     <div className="h-screen">
@@ -45,18 +51,21 @@ const Order = () => {
       </div>
 
       <div className="flex mt-4 flex-wrap items-center justify-center">
-        {coffees.map((coffee) => {
+        {menu.map((coffee) => {
           return (
-            <div className="m-2">
-              <Card name={coffee.name} type={coffee.type}></Card>
+            <div
+              className="m-2"
+              onClick={() => {
+                handleClick(coffee.id);
+              }}
+            >
+              <Card name={coffee.menuName} type={coffee.type}></Card>
             </div>
           );
         })}
       </div>
 
-      <div className="h-14">
-
-      </div>
+      <div className="h-14"></div>
 
       <div className=" fixed bottom-0 w-full h-12 bg-primary">
         <div className="flex p-4 justify-around items-center text-white font-bold">
@@ -66,6 +75,12 @@ const Order = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps = async ({ query, req }) => {
+  const menu = await prisma.coffee.findMany({});
+
+  return { props: { menu } };
 };
 
 export default Order;

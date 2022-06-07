@@ -24,9 +24,8 @@ model Coffee {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name      String
+  menuName  String   @unique
   type      String
-  Order     Order[]
 }
 
 model Order {
@@ -35,6 +34,4 @@ model Order {
   updatedAt DateTime @updatedAt
   User      User?    @relation(fields: [userId], references: [id])
   userId    Int?
-  coffee    Coffee   @relation(fields: [coffeeId], references: [id])
-  coffeeId  Int
 }
