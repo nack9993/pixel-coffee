@@ -26,6 +26,7 @@ model Coffee {
   updatedAt DateTime @updatedAt
   menuName  String   @unique
   type      String
+  Order     Order[]
 }
 
 model Order {
@@ -34,4 +35,6 @@ model Order {
   updatedAt DateTime @updatedAt
   User      User?    @relation(fields: [userId], references: [id])
   userId    Int?
+  Coffee    Coffee?  @relation(fields: [coffeeId], references: [id])
+  coffeeId  Int?
 }

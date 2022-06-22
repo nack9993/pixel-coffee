@@ -39,7 +39,7 @@ const Order = ({ menu }) => {
             {coffeeTypes.map((type) => {
               return (
                 <div
-                  className="bg-white w-[150px] text-center p-2 rounded-3xl border text-primary"
+                  className="bg-white w-[150px] text-center p-2 rounded-3xl border text-primary cursor-pointer"
                   key={type.type}
                 >
                   {type.type}
@@ -53,19 +53,19 @@ const Order = ({ menu }) => {
       <div className="flex mt-4 flex-wrap items-center justify-center">
         {menu.map((coffee) => {
           return (
-            <div
-              className="m-2"
+            <a
+              className="m-2 cursor-pointer"
               onClick={() => {
                 handleClick(coffee.id);
               }}
             >
-              <Card name={coffee.menuName} type={coffee.type}></Card>
-            </div>
+              <Card name={coffee.menuName} type={coffee.type} />
+            </a>
           );
         })}
       </div>
 
-      <div className="h-14"></div>
+      <div className="h-14" />
 
       <div className=" fixed bottom-0 w-full h-12 bg-primary">
         <div className="flex p-4 justify-around items-center text-white font-bold">
