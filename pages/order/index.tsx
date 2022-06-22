@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import Router from "next/router";
 import Card from "../../components/card";
 import prisma from "../../lib/prisma";
@@ -5,15 +6,15 @@ import prisma from "../../lib/prisma";
 const Order = ({ menu }) => {
   const coffeeTypes = [{ type: "Coffee" }, { type: "Soda" }, { type: "Tea" }];
 
-  const coffees = [
-    { name: "Americano", type: "coffee" },
-    { name: "Mocca", type: "coffee" },
-    { name: "Cappuchino", type: "coffee" },
-    { name: "Latte", type: "coffee" },
-    { name: "Piccolo Latte", type: "coffee" },
-    { name: "Peach Soda", type: "soda" },
-    { name: "Thai tea", type: "tea" },
-  ];
+  // const coffees = [
+  //   { name: "Americano", type: "coffee" },
+  //   { name: "Mocca", type: "coffee" },
+  //   { name: "Cappuchino", type: "coffee" },
+  //   { name: "Latte", type: "coffee" },
+  //   { name: "Piccolo Latte", type: "coffee" },
+  //   { name: "Peach Soda", type: "soda" },
+  //   { name: "Thai tea", type: "tea" },
+  // ];
 
   const handleClick = (id) => {
     Router.push(`/order/${id}`);
@@ -53,14 +54,16 @@ const Order = ({ menu }) => {
       <div className="flex mt-4 flex-wrap items-center justify-center">
         {menu.map((coffee) => {
           return (
-            <a
+            <div
+              tabIndex={0}
+              role="menuitem"
               className="m-2 cursor-pointer"
               onClick={() => {
                 handleClick(coffee.id);
               }}
             >
               <Card name={coffee.menuName} type={coffee.type} />
-            </a>
+            </div>
           );
         })}
       </div>
@@ -77,7 +80,7 @@ const Order = ({ menu }) => {
   );
 };
 
-export const getServerSideProps = async ({ query, req }) => {
+export const getServerSideProps = async () => {
   const menu = await prisma.coffee.findMany({});
 
   return { props: { menu } };

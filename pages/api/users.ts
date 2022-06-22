@@ -6,7 +6,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   let users;
   try {
     users = await prisma.user.findMany({});
-  } catch (e) {}
+  } catch (e) {
+    console.log(e);
+  }
 
-  return await res.status(200).json(users);
+  return res.status(200).json(users);
 };

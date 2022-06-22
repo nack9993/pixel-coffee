@@ -10,7 +10,7 @@ const Admin = () => {
             <span className=" text-gray">31 June 2021, 07:28 PM</span>
 
             <div className="mt-6 flex space-x-4">
-              <img className="" width={40} src="glass.svg" />
+              <img alt="glass" className="" width={40} src="glass.svg" />
 
               <div>
                 <b>Americano</b>
