@@ -1,23 +1,32 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useStoreActions, useStoreState } from "easy-peasy";
 import SearchBar from "../../components/search/base/searchBar";
 import prisma from "../../lib/prisma";
 import fetcher from "../../lib/fetcher";
+import CardMini from "../../components/cardMini";
+import LoadingScreen from "../../components/loadingScreen";
 
 const OrderProcess = ({ menu }) => {
+  const setLoading = useStoreActions((actions: any) => actions.setLoading);
+  const loading = useStoreState((state: any) => state.isLoading);
   const router = useRouter();
+
   const icon = {
     coffee: { path: "../Coffee_cup.svg" },
     soda: { path: "../Soda.svg" },
     tea: { path: "../Tea.svg" },
   };
 
+  const sweetLevel = [0, 50, 100];
+
   const users = [{ name: "Nack" }, { name: "Kookai" }];
   const [username, setUsername] = useState("");
+  const [sweet, setSweet] = useState(0);
 
   const [isUnvalid, setIsUnvalid] = useState(true);
   const [isShowSearch, setIsShowSearch] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const searchUsername = (name) => {
     setUsername(name);
@@ -26,25 +35,28 @@ const OrderProcess = ({ menu }) => {
   };
 
   const submitOrder = async () => {
-    setIsLoading(true);
+    setLoading();
+
     try {
-      await fetcher("/order", { userId: 1, coffeeId: +router.query.id });
+      await fetcher("/order", {
+        orderBy: username,
+        sweet,
+        coffeeId: +router.query.id,
+      });
       router.push({ pathname: "/history" });
     } catch (error) {
       console.error(error);
-      setIsLoading(false);
     }
   };
 
   return (
-    <div className="bg-secondary max-w-[420px] w-full">
-      <div className="flex justify-center items-center min-h-[300px] flex-col">
+    <div className="max-w-[420px] w-full relative">
+      <div className="flex justify-center items-center min-h-[270px] flex-col bg-secondary ">
         <img
           alt="coffee"
           className="w-[35%] max-w-[150px]"
           src={icon[menu.type].path}
         />
-        <div>{isLoading ? "Load" : "Not load"}</div>
       </div>
 
       <div className="w-full bg-white">
@@ -54,23 +66,13 @@ const OrderProcess = ({ menu }) => {
 
           <div>
             <div className="flex mt-4  justify-between">
-              <div className="cursor-pointer min-w-[90px]  relative bg-white  border rounded-xl shadow-[0px_10px_rgb(0,0,0)] transition-all hover:bg-secondary ">
-                <div className="p-2 min-h-[80px] flex flex-col justify-center items-center">
-                  <h1 className="font-bold mt-2 text-xl">0%</h1>
-                </div>
-              </div>
-
-              <div className="min-w-[90px]  relative bg-white  border rounded-xl shadow-[0px_10px_rgb(0,0,0)] transition-all hover:bg-secondary ">
-                <div className="cursor-pointer  p-2 min-h-[80px] flex flex-col justify-center items-center">
-                  <h1 className="font-bold mt-2 text-xl">50%</h1>
-                </div>
-              </div>
-
-              <div className="min-w-[90px]  relative bg-white  border rounded-xl shadow-[0px_10px_rgb(0,0,0)] transition-all hover:bg-secondary ">
-                <div className=" cursor-pointer  p-2 min-h-[80px] flex flex-col justify-center items-center">
-                  <h1 className="font-bold mt-2 text-xl">100%</h1>
-                </div>
-              </div>
+              {sweetLevel.map((s) => (
+                <CardMini
+                  isSelected={sweet === s}
+                  item={s}
+                  selectedCard={setSweet}
+                />
+              ))}
             </div>
 
             <div className="mt-8">
@@ -102,7 +104,7 @@ const OrderProcess = ({ menu }) => {
         </div>
       </div>
 
-      <div className="fixed bottom-2  flex justify-center items-center w-[390px]">
+      <div className="fixed bottom-[80px]  flex justify-center items-center w-[390px]">
         <button
           disabled={isUnvalid}
           type="submit"
@@ -114,6 +116,7 @@ const OrderProcess = ({ menu }) => {
           Order now
         </button>
       </div>
+      {loading && <LoadingScreen />}
     </div>
   );
 };

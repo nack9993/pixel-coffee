@@ -1,6 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 import prisma from "../../lib/prisma";
+
+let socket;
 
 const History = ({ orders }) => {
   const icon = {
@@ -11,12 +15,29 @@ const History = ({ orders }) => {
   const [selectedId, setSelectedId] = useState(0);
   const [orderList, setOrderList] = useState(orders);
 
-  //   const selectOrder = () => {
-  //     console.log("select card");
-  //   };
+  const socketInitializer = async () => {
+    await fetch("/api/socket");
+    socket = io();
+
+    console.log(io());
+
+    socket.on("connect", () => {});
+
+    socket.on("hello", (arg) => {
+      console.log(arg);
+    });
+
+    socket.on("update-order", (id) => {
+      setOrderList(orderList.filter((order) => order.id !== id));
+    });
+  };
+
+  useEffect(() => {
+    socketInitializer();
+  }, []);
 
   const onConfirm = (id) => {
-    setOrderList(orderList.filter((order) => order.id !== id));
+    socket.emit("order-finished", id);
   };
 
   return (
@@ -45,13 +66,16 @@ const History = ({ orders }) => {
                   <div className="font-bold text-xl mb-2">
                     Order #{order.id}
                   </div>
-                  <Image
+                  {/* <Image
                     alt=""
                     className="rounded-full"
                     src={order.User.avatar}
                     width={50}
                     height={50}
-                  />
+                  /> */}
+                  <div className="w-[50px] h-[50px] bg-primary text-white rounded-full flex justify-center items-center">
+                    {String(order.orderBy).toLocaleUpperCase().split("")[0]}
+                  </div>
                 </div>
                 <div className="flex justify-between w-full">
                   <div className="flex w-full">
@@ -99,7 +123,6 @@ export const getServerSideProps = async () => {
   const orders = await prisma.order.findMany({
     include: {
       Coffee: true,
-      User: true,
     },
   });
 

@@ -21,7 +21,7 @@ const Order = ({ menu }) => {
   };
 
   return (
-    <div className="h-screen">
+    <div className="h-screen relative">
       <div className="pt-4 px-4">
         <div className="text-2xl font-bold text-primary">
           What Would You Like?
@@ -68,9 +68,7 @@ const Order = ({ menu }) => {
         })}
       </div>
 
-      <div className="h-14" />
-
-      <div className=" fixed bottom-0 w-full h-12 bg-primary">
+      <div className=" fixed bottom-0 w-[750px] h-12 bg-primary">
         <div className="flex p-4 justify-around items-center text-white font-bold">
           <div>Order</div>
           <div>List</div>
