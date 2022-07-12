@@ -19,8 +19,6 @@ const History = ({ orders }) => {
     await fetch("/api/socket");
     socket = io();
 
-    console.log(io());
-
     socket.on("connect", () => {});
 
     socket.on("hello", (arg) => {
@@ -41,7 +39,7 @@ const History = ({ orders }) => {
   };
 
   return (
-    <div className="p-4 w-full">
+    <div className="p-4 w-full h-full">
       <div className="text-xl font-bold">Order page</div>
       <hr className=" my-4" />
       <div className="lg:flex lg:flex-wrap lg:justify-center">
@@ -93,13 +91,13 @@ const History = ({ orders }) => {
                       <div className="mt-4 flex justify-between w-full">
                         <button
                           type="button"
-                          className="py-2 px-7 bg-primary text-white rounded-xl text-sm "
+                          className="py-2 px-7 text-gray rounded-xl text-sm "
                         >
                           Cancel
                         </button>
                         <button
                           type="button"
-                          className="py-2 px-12 bg-secondary rounded-xl text-sm border border-primary"
+                          className="py-2 px-10 bg-secondary rounded-xl text-sm border border-primary"
                           onClick={() => {
                             onConfirm(order.id);
                           }}

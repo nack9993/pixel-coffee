@@ -55,6 +55,7 @@ const Order = ({ menu }) => {
         {menu.map((coffee) => {
           return (
             <div
+              key={coffee.id}
               tabIndex={0}
               role="menuitem"
               className="m-2 cursor-pointer"
@@ -66,13 +67,6 @@ const Order = ({ menu }) => {
             </div>
           );
         })}
-      </div>
-
-      <div className=" fixed bottom-0 w-[750px] h-12 bg-primary">
-        <div className="flex p-4 justify-around items-center text-white font-bold">
-          <div>Order</div>
-          <div>List</div>
-        </div>
       </div>
     </div>
   );

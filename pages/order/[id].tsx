@@ -50,7 +50,7 @@ const OrderProcess = ({ menu }) => {
   };
 
   return (
-    <div className="max-w-[420px] w-full relative">
+    <div className="max-w-[420px] w-full relative h-screen">
       <div className="flex justify-center items-center min-h-[270px] flex-col bg-secondary ">
         <img
           alt="coffee"
@@ -68,6 +68,7 @@ const OrderProcess = ({ menu }) => {
             <div className="flex mt-4  justify-between">
               {sweetLevel.map((s) => (
                 <CardMini
+                  key={s}
                   isSelected={sweet === s}
                   item={s}
                   selectedCard={setSweet}
@@ -104,7 +105,7 @@ const OrderProcess = ({ menu }) => {
         </div>
       </div>
 
-      <div className="fixed bottom-[80px]  flex justify-center items-center w-[390px]">
+      <div className="fixed bottom-[15px]  flex justify-center items-center w-[390px]">
         <button
           disabled={isUnvalid}
           type="submit"

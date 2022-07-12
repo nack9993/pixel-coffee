@@ -7,7 +7,7 @@ const Home = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-neutral flex-col w-full">
+    <div className="flex justify-center items-center h-screen bg-neutral flex-col">
       <img className="p-10" width={300} src="Coffee_cup.svg" alt="" />
       <div className="text-5xl font-bold text-secondary">PIXEL CAFE</div>
 
