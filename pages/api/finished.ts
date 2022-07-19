@@ -3,12 +3,15 @@ import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../lib/prisma";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  let users;
   try {
-    users = await prisma.user.findMany({});
+    await prisma.order.delete({
+      where: {
+        id: req.body.id,
+      },
+    });
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 
-  return res.status(200).json(users);
+  return res.status(200).json({});
 };

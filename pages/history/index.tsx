@@ -2,11 +2,14 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { useRouter } from "next/router";
+import fetcher from "../../lib/fetcher";
 import prisma from "../../lib/prisma";
 
 let socket;
 
 const History = ({ orders }) => {
+  const router = useRouter();
   const icon = {
     coffee: { path: "/../Coffee_cup.svg" },
     soda: { path: "/../Soda.svg" },
@@ -21,10 +24,6 @@ const History = ({ orders }) => {
 
     socket.on("connect", () => {});
 
-    socket.on("hello", (arg) => {
-      console.log(arg);
-    });
-
     socket.on("update-order", (id) => {
       setOrderList(orderList.filter((order) => order.id !== id));
     });
@@ -34,8 +33,22 @@ const History = ({ orders }) => {
     socketInitializer();
   }, []);
 
-  const onConfirm = (id) => {
+  const onConfirm = async (id) => {
     socket.emit("order-finished", id);
+
+    try {
+      await fetcher(
+        "/finished",
+        {
+          id,
+        },
+        "DELETE"
+      );
+
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
