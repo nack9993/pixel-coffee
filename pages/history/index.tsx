@@ -2,14 +2,12 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import { useRouter } from "next/router";
 import fetcher from "../../lib/fetcher";
 import prisma from "../../lib/prisma";
 
 let socket;
 
 const History = ({ orders }) => {
-  const router = useRouter();
   const icon = {
     coffee: { path: "/../Coffee_cup.svg" },
     soda: { path: "/../Soda.svg" },
