@@ -50,8 +50,8 @@ const History = ({ orders }) => {
   };
 
   return (
-    <div className="p-4 w-full">
-      <div className="text-xl font-bold">Order page</div>
+    <div className="p-4 mb-5 w-full">
+      <div className="text-xl font-bold">History page</div>
       <hr className=" my-4" />
       <div className="lg:flex lg:flex-wrap lg:justify-center">
         {orderList.map((order) => {
