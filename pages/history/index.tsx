@@ -50,7 +50,7 @@ const History = ({ orders }) => {
   };
 
   return (
-    <div className="p-4 w-full h-screen">
+    <div className="p-4 w-full">
       <div className="text-xl font-bold">Order page</div>
       <hr className=" my-4" />
       <div className="lg:flex lg:flex-wrap lg:justify-center">

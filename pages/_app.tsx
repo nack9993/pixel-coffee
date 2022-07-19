@@ -15,8 +15,8 @@ const MyApp = ({ Component, pageProps }) => {
 
   return (
     <StoreProvider store={store}>
-      <div className="flex justify-center items-center h-full relative flex-col bg-primary ">
-        <div className="w-[390px] bg-white h-full ">
+      <div className="flex justify-center items-center h-full relative flex-col bg-primary  ">
+        <div className="w-[390px] bg-white">
           <Component {...pageProps} />
           {!isShowMenu() && (
             <div className="fixed bottom-0 bg-primary text-white p-4 flex justify-around w-[390px]">

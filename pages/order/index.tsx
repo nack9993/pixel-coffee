@@ -33,7 +33,7 @@ const Order = ({ menu }) => {
           placeholder="Search..."
         />
       </div>
-
+      {/* 
       <div className="mt-4">
         <div className="pl-4 overflow-x-scroll">
           <div className="space-x-2 inline-flex">
@@ -49,7 +49,7 @@ const Order = ({ menu }) => {
             })}
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="flex mt-4 flex-wrap items-center justify-center">
         {menu.map((coffee) => {

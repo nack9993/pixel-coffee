@@ -10,6 +10,7 @@ import LoadingScreen from "../../components/loadingScreen";
 
 const OrderProcess = ({ menu }) => {
   const setLoading = useStoreActions((actions: any) => actions.setLoading);
+  const clearLoading = useStoreActions((actions: any) => actions.clearLoading);
   const loading = useStoreState((state: any) => state.isLoading);
   const router = useRouter();
 
@@ -43,18 +44,20 @@ const OrderProcess = ({ menu }) => {
         sweet,
         coffeeId: +router.query.id,
       });
+      clearLoading();
       router.push({ pathname: "/history" });
     } catch (error) {
+      clearLoading();
       console.error(error);
     }
   };
 
   return (
     <div className="max-w-[420px] w-full relative h-screen">
-      <div className="flex justify-center items-center min-h-[270px] flex-col bg-secondary ">
+      <div className="flex justify-center items-center min-h-[260px] flex-col bg-secondary ">
         <img
           alt="coffee"
-          className="w-[35%] max-w-[150px]"
+          className="w-[30%] max-w-[140px]"
           src={icon[menu.type].path}
         />
       </div>
@@ -65,6 +68,7 @@ const OrderProcess = ({ menu }) => {
           <hr className="mt-4" />
 
           <div>
+            <b className="text-lg mt-2">Sweetness</b>
             <div className="flex mt-4  justify-between">
               {sweetLevel.map((s) => (
                 <CardMini
@@ -75,7 +79,6 @@ const OrderProcess = ({ menu }) => {
                 />
               ))}
             </div>
-
             <div className="mt-8">
               <b className="text-xl">Order by</b>
               <div className="mt-2">

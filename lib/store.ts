@@ -5,4 +5,7 @@ export default createStore({
   setLoading: action((state: any) => {
     state.isLoading = true;
   }),
+  clearLoading: action((state: any) => {
+    state.isLoading = false;
+  }),
 });
