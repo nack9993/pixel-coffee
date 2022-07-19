@@ -4,8 +4,6 @@ import Card from "../../components/card";
 import prisma from "../../lib/prisma";
 
 const Order = ({ menu }) => {
-  const coffeeTypes = [{ type: "Coffee" }, { type: "Soda" }, { type: "Tea" }];
-
   // const coffees = [
   //   { name: "Americano", type: "coffee" },
   //   { name: "Mocca", type: "coffee" },
