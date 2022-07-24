@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { StoreProvider } from "easy-peasy";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -38,8 +39,9 @@ const MyApp = ({ Component, pageProps }) => {
                       }`}
                     >
                       <img
+                        alt="icon"
                         className="mr-2"
-                        src={route["icon"]}
+                        src={route.icon}
                         width={15}
                         height={15}
                       />

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import Router from "next/router";
 import { useState } from "react";
@@ -80,16 +81,16 @@ const Order = ({ menu }) => {
       <div className="mt-4">
         <div className="pl-4 overflow-x-scroll">
           <div className="space-x-2 inline-flex">
-            {coffeeTypes.map(({ type }) => {
+            {coffeeTypes.map((coffee) => {
               return (
                 <div
                   className={`bg-white w-[150px] text-center p-2 rounded-3xl border text-primary cursor-pointer ${
-                    category === type ? "bg-secondary" : ""
+                    category === coffee.type ? "bg-secondary" : ""
                   }`}
-                  key={type}
-                  onClick={() => fitlerCategory(type)}
+                  key={coffee.type}
+                  onClick={() => fitlerCategory(coffee.type)}
                 >
-                  {type}
+                  {coffee.type}
                 </div>
               );
             })}
