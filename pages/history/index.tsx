@@ -82,8 +82,8 @@ const History = ({ orders }) => {
                     width={50}
                     height={50}
                   /> */}
-                  <div className="w-[50px] h-[50px] bg-primary text-white rounded-full flex justify-center items-center">
-                    {String(order.orderBy).toLocaleUpperCase().split("")[0]}
+                  <div className="rounded-md bg-primary text-white h-[25px] px-2 text-sm">
+                    {order.orderBy}
                   </div>
                 </div>
                 <div className="flex justify-between w-full">

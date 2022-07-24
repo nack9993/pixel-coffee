@@ -15,9 +15,9 @@ const OrderProcess = ({ menu }) => {
   const router = useRouter();
 
   const icon = {
-    coffee: { path: "../Coffee_cup.svg" },
-    soda: { path: "../Soda.svg" },
-    tea: { path: "../Tea.svg" },
+    coffee: { path: "../Coffee_cup.svg", width: "130px" },
+    soda: { path: "../Soda.svg", width: "100px" },
+    tea: { path: "../Tea.svg", width: "130px" },
   };
 
   const sweetLevel = [0, 50, 100];
@@ -57,7 +57,7 @@ const OrderProcess = ({ menu }) => {
       <div className="flex justify-center items-center min-h-[260px] flex-col bg-secondary ">
         <img
           alt="coffee"
-          className="w-[30%] max-w-[140px]"
+          className={`w-[30%] max-w-[${icon[menu.type].width}]`}
           src={icon[menu.type].path}
         />
       </div>
@@ -68,16 +68,18 @@ const OrderProcess = ({ menu }) => {
           <hr className="mt-4" />
 
           <div>
-            <b className="text-lg mt-2">Sweetness</b>
-            <div className="flex mt-4  justify-between">
-              {sweetLevel.map((s) => (
-                <CardMini
-                  key={s}
-                  isSelected={sweet === s}
-                  item={s}
-                  selectedCard={setSweet}
-                />
-              ))}
+            <div>
+              <b className="text-lg mt-2">Sweetness</b>
+              <div className="flex mt-4  justify-between">
+                {sweetLevel.map((s) => (
+                  <CardMini
+                    key={s}
+                    isSelected={sweet === s}
+                    item={s}
+                    selectedCard={setSweet}
+                  />
+                ))}
+              </div>
             </div>
             <div className="mt-8">
               <b className="text-xl">Order by</b>
@@ -112,7 +114,7 @@ const OrderProcess = ({ menu }) => {
         <button
           disabled={isUnvalid}
           type="submit"
-          className=" w-11/12 p-4 bg-secondary rounded-2xl shadow-xl disabled:bg-gray"
+          className=" w-11/12 p-4 bg-secondary rounded-2xl disabled:bg-gray shadow-[0px_10px_rgb(0,0,0)]"
           onClick={() => {
             submitOrder();
           }}
