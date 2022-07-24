@@ -36,8 +36,8 @@ const Order = ({ menu }) => {
 
     const name = String(type).toLocaleLowerCase();
 
-    const filterdMenu = menu.filter(({ type }) => {
-      const lowerCase = String(type).toLocaleLowerCase();
+    const filterdMenu = menu.filter((menuType) => {
+      const lowerCase = String(menuType.type).toLocaleLowerCase();
       return lowerCase.match(name);
     });
     setMenus(filterdMenu);
