@@ -2,7 +2,7 @@ import { Server } from "socket.io";
 
 const SocketHandler = (req, res) => {
   if (res.socket.server.io) {
-    const io = res.socket.server.io;
+    const { io } = res.socket.server;
 
     io.on("connection", (socket) => {
       socket.on("order-finished", (id) => {

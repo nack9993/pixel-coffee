@@ -35,7 +35,7 @@ const History = ({ orders }) => {
     fetch("/api/socket");
     socket = io();
 
-    socket.on("order-finished", async (id) => {
+    socket.on("order-finished", async () => {
       await getOrders();
     });
 
