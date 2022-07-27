@@ -1,39 +1,54 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Image from "next/image";
+import { useStoreActions, useStoreState } from "easy-peasy";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import OrderCard from "../../components/orderCard";
 import fetcher from "../../lib/fetcher";
 import prisma from "../../lib/prisma";
 
 let socket;
+let isloading = false;
 
 const History = ({ orders }) => {
-  const icon = {
-    coffee: { path: "/../Coffee_cup.svg" },
-    soda: { path: "/../Soda.svg" },
-    tea: { path: "/../Tea.svg" },
-  };
+  const setOrders = useStoreActions((actions: any) => actions.setOrders);
+  const orderList = useStoreState((state: any) => {
+    return state.orders;
+  });
   const [selectedId, setSelectedId] = useState(0);
-  const [orderList, setOrderList] = useState(orders);
+  // const [orderList, setOrderList] = useState([]);
 
-  const socketInitializer = async () => {
-    await fetch("/api/socket");
-    socket = io();
-
-    socket.on("connect", () => {});
-
-    socket.on("update-order", (id) => {
-      setOrderList(orderList.filter((order) => order.id !== id));
-    });
+  const getOrders = async () => {
+    if (isloading) return;
+    isloading = true;
+    try {
+      const response = await fetcher("/order");
+      setOrders(response);
+      isloading = false;
+    } catch (error) {
+      isloading = false;
+      console.error(error);
+    }
   };
 
   useEffect(() => {
-    socketInitializer();
+    setOrders(orders);
+    fetch("/api/socket");
+    socket = io();
+
+    socket.on("order-finished", async (id) => {
+      await getOrders();
+    });
+
+    socket.on("new-order", async () => {
+      await getOrders();
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   const onConfirm = async (id) => {
-    socket.emit("order-finished", id);
-
     try {
       await fetcher(
         "/finished",
@@ -43,7 +58,8 @@ const History = ({ orders }) => {
         "DELETE"
       );
 
-      window.location.reload();
+      socket.emit("order-finished", id);
+      await getOrders();
     } catch (error) {
       console.error(error);
     }
@@ -53,73 +69,18 @@ const History = ({ orders }) => {
     <div className="p-4 mb-5 w-full">
       <div className="text-xl font-bold">History page</div>
       <hr className=" my-4" />
+      {isloading}
       <div className="lg:flex lg:flex-wrap lg:justify-center">
         {orderList.map((order) => {
           return (
-            <div
-              key={order.id}
-              className="animate-in slide-in-from-left-75  lg:m-4"
-            >
-              <div
-                role="menuitem"
-                className={`p-4 mb-5 rounded-lg border border-gray  shadow-[0px_10px_rgb(0,0,0)] ${
-                  order.id === selectedId ? "border-primary" : ""
-                }`}
-                onClick={() => {
-                  setSelectedId(order.id);
-                }}
-                tabIndex={0}
-                aria-hidden="true"
-              >
-                <div className="flex justify-between">
-                  <div className="font-bold text-xl mb-2">
-                    Order #{order.id}
-                  </div>
-                  {/* <Image
-                    alt=""
-                    className="rounded-full"
-                    src={order.User.avatar}
-                    width={50}
-                    height={50}
-                  /> */}
-                  <div className="rounded-md bg-primary text-white h-[25px] px-2 text-sm">
-                    {order.orderBy}
-                  </div>
-                </div>
-                <div className="flex justify-between w-full">
-                  <div className="flex w-full">
-                    <Image
-                      src={icon[order.Coffee.type].path}
-                      width={80}
-                      height={80}
-                    />
-                    <div className="ml-4 w-full">
-                      <div className="font-bold text-md">
-                        {order.Coffee.menuName}{" "}
-                      </div>
-                      <div className="text-sm">Hot, Sweet 50%</div>
-
-                      <div className="mt-4 flex justify-between w-full">
-                        <button
-                          type="button"
-                          className="py-2 px-7 text-gray rounded-xl text-sm "
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          type="button"
-                          className="py-2 px-10 bg-secondary rounded-xl text-sm border border-primary"
-                          onClick={() => {
-                            onConfirm(order.id);
-                          }}
-                        >
-                          Finish
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="animate-in fade-in  duration-300">
+              <OrderCard
+                key={order.id}
+                order={order}
+                selectedId={selectedId}
+                setSelectedId={setSelectedId}
+                onConfirm={onConfirm}
+              />
             </div>
           );
         })}

@@ -8,4 +8,8 @@ export default createStore({
   clearLoading: action((state: any) => {
     state.isLoading = false;
   }),
+  orders: [],
+  setOrders: action((state: any, payload: any) => {
+    state.orders = [...payload];
+  }),
 });

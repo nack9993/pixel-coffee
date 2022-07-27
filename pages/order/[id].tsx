@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useStoreActions, useStoreState } from "easy-peasy";
+import { io } from "socket.io-client";
 import SearchBar from "../../components/search/base/searchBar";
 import prisma from "../../lib/prisma";
 import fetcher from "../../lib/fetcher";
@@ -36,15 +37,24 @@ const OrderProcess = ({ menu }) => {
   };
 
   const submitOrder = async () => {
+    const socket = io();
     setLoading();
 
+    const requestBody = {
+      orderBy: username,
+      sweet,
+      coffeeId: +router.query.id,
+    };
+
     try {
-      await fetcher("/order", {
-        orderBy: username,
-        sweet,
-        coffeeId: +router.query.id,
-      });
+      const response = await fetcher("/order", requestBody);
       clearLoading();
+
+      socket.emit("new-order", {
+        ...response,
+        ...{ Coffee: menu },
+        ...{ new: true },
+      });
       router.push({ pathname: "/history" });
     } catch (error) {
       clearLoading();
@@ -97,7 +107,12 @@ const OrderProcess = ({ menu }) => {
                       if (!convertName.includes(convertUserName)) return;
                       if (convertName === convertUserName) return;
                       return (
-                        <div tabIndex={0} className="p-3" role="menuitem">
+                        <div
+                          key={user.name}
+                          tabIndex={0}
+                          className="p-3"
+                          role="menuitem"
+                        >
                           {user.name}
                         </div>
                       );

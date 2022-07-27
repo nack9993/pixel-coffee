@@ -44,7 +44,7 @@ const Order = ({ menu }) => {
   };
 
   return (
-    <div className="h-screen relative">
+    <div className="h-screen relative mb-[290px]">
       <div className=" text-white bg-secondary h-[130px]  px-4 flex justify-center items-center">
         <div className="pt-4 ">
           <div className="text-5xl font-bold text-primary">PIXEL CAFE</div>
