@@ -2,12 +2,13 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import LoadingScreen from "../../components/loadingScreen";
 import OrderCard from "../../components/orderCard";
 import fetcher from "../../lib/fetcher";
 import prisma from "../../lib/prisma";
 
 let socket;
-let isloading = false;
+let isLoadData = false;
 
 const History = ({ orders }) => {
   const setOrders = useStoreActions((actions: any) => actions.setOrders);
@@ -15,18 +16,25 @@ const History = ({ orders }) => {
     return state.orders;
   });
   const [selectedId, setSelectedId] = useState(0);
+
+  const setLoading = useStoreActions((actions: any) => actions.setLoading);
+  const clearLoading = useStoreActions((actions: any) => actions.clearLoading);
+  const loading = useStoreState((state: any) => state.isLoading);
   // const [orderList, setOrderList] = useState([]);
 
   const getOrders = async () => {
-    if (isloading) return;
-    isloading = true;
+    if (isLoadData) return;
+    setLoading(true);
+    isLoadData = true;
     try {
       const response = await fetcher("/order");
       setOrders(response);
-      isloading = false;
+      clearLoading();
+      isLoadData = false;
     } catch (error) {
-      isloading = false;
       console.error(error);
+      clearLoading();
+      isLoadData = false;
     }
   };
 
@@ -69,13 +77,13 @@ const History = ({ orders }) => {
     <div className="p-4 mb-5 w-full">
       <div className="text-xl font-bold">History page</div>
       <hr className=" my-4" />
-      {isloading}
+
       <div className="lg:flex lg:flex-wrap lg:justify-center">
         {orderList.map((order) => {
           return (
-            <div className="animate-in fade-in  duration-300">
+            <div key={order.id} className="animate-in fade-in  duration-300">
+              <div className="text-xl font-bold">{loading} </div>
               <OrderCard
-                key={order.id}
                 order={order}
                 selectedId={selectedId}
                 setSelectedId={setSelectedId}
@@ -84,6 +92,7 @@ const History = ({ orders }) => {
             </div>
           );
         })}
+        {loading && <LoadingScreen />}
       </div>
     </div>
   );
