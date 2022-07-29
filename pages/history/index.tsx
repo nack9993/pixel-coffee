@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import Pusher from "pusher-js";
+import axios from "axios";
 import LoadingScreen from "../../components/loadingScreen";
 import OrderCard from "../../components/orderCard";
 import fetcher from "../../lib/fetcher";
 import prisma from "../../lib/prisma";
 
-let socket;
 let isLoadData = false;
 
 const History = ({ orders }) => {
@@ -40,19 +40,27 @@ const History = ({ orders }) => {
 
   useEffect(() => {
     setOrders(orders);
-    fetch("/api/socket");
-    socket = io();
 
-    socket.on("order-finished", async () => {
-      await getOrders();
+    const pusher = new Pusher("476d47ea8d47ede8c789", {
+      cluster: "ap1",
     });
 
-    socket.on("new-order", async () => {
+    const channel = pusher.subscribe("order");
+
+    channel.bind("order-finished", async () => {
+      await getOrders();
+      // setChats((prevState) => [
+      //   ...prevState,
+      //   { sender: data.sender, message: data.message },
+      // ]);
+    });
+
+    channel.bind("new-order", async () => {
       await getOrders();
     });
 
     return () => {
-      socket.disconnect();
+      pusher.unsubscribe("order");
     };
   }, []);
 
@@ -66,7 +74,7 @@ const History = ({ orders }) => {
         "DELETE"
       );
 
-      socket.emit("order-finished", id);
+      await axios.post("/api/pusher", { id });
       await getOrders();
     } catch (error) {
       console.error(error);

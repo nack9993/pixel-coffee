@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { io } from "socket.io-client";
+
+import axios from "axios";
 import SearchBar from "../../components/search/base/searchBar";
 import prisma from "../../lib/prisma";
 import fetcher from "../../lib/fetcher";
@@ -37,7 +38,6 @@ const OrderProcess = ({ menu }) => {
   };
 
   const submitOrder = async () => {
-    const socket = io();
     setLoading();
 
     const requestBody = {
@@ -49,8 +49,7 @@ const OrderProcess = ({ menu }) => {
     try {
       const response = await fetcher("/order", requestBody);
       clearLoading();
-
-      socket.emit("new-order", {
+      await axios.post("/api/pusher/new-order", {
         ...response,
         ...{ Coffee: menu },
         ...{ new: true },
