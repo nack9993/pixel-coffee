@@ -56,6 +56,8 @@ const History = ({ orders }) => {
         const title = `Order #${id} is finished`;
         const body =
           "Your order is already finished. Please check on the kitchen";
+
+        if (typeof Notification === "undefined") return;
         const notification = new Notification(title, { body });
 
         window.localStorage.setItem("orderId", "");
