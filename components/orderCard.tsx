@@ -46,7 +46,7 @@ const OrderCard = ({ order, selectedId, setSelectedId, onConfirm }) => {
             <Image src={icon[order.Coffee.type].path} width={80} height={80} />
             <div className="ml-4 w-full">
               <div className="font-bold text-md">{order.Coffee.menuName} </div>
-              <div className="text-sm">Hot, Sweet 50%</div>
+              <div className="text-sm">Hot, Sweet {order.sweet}%</div>
 
               <div className="mt-4 flex justify-between w-full">
                 <button

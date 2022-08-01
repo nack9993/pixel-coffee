@@ -29,3 +29,8 @@ model Order {
   orderBy   String
   sweet     Int
 }
+
+model Admin {
+  id          Int     @id @default(autoincrement())
+  isAvailable Boolean
+}

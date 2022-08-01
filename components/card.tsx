@@ -8,7 +8,11 @@ const Card = ({ type, name }) => {
   return (
     <div className="min-w-[160px]  relative bg-white  border rounded-xl shadow-[0px_10px_rgb(0,0,0)] transition-all hover:bg-secondary ">
       <div className="p-2 min-h-[180px] flex flex-col justify-center items-center">
-        <img alt="icon" width={icon[type].width} src={icon[type].path} />
+        <img
+          alt="icon"
+          width={icon[type].width}
+          src={`../../${icon[type].path}`}
+        />
         <h1 className="font-bold mt-2">{name}</h1>
       </div>
     </div>

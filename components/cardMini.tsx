@@ -6,14 +6,14 @@ const cardMini = ({ selectedCard, item, isSelected }) => {
   };
   return (
     <div
-      className={`cursor-pointer min-w-[90px]  relative bg-white  border rounded-xl shadow-[0px_10px_rgb(0,0,0)] transition-all hover:bg-secondary ${
+      className={`cursor-pointer min-w-[110px]  relative bg-white  border rounded-xl shadow-[0px_10px_rgb(0,0,0)] transition-all hover:bg-secondary ${
         isSelected ? "bg-secondary" : ""
       }`}
       onClick={() => {
         selectCard(item);
       }}
     >
-      <div className="p-2 min-h-[80px] flex flex-col justify-center items-center">
+      <div className="p-2 min-h-[110px] flex flex-col justify-center items-center">
         <h1 className="font-bold mt-2 text-xl">{item}</h1>
       </div>
     </div>

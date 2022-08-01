@@ -17,9 +17,9 @@ const OrderProcess = ({ menu }) => {
   const router = useRouter();
 
   const icon = {
-    coffee: { path: "../Coffee_cup.svg", width: "130px" },
-    soda: { path: "../Soda.svg", width: "100px" },
-    tea: { path: "../Tea.svg", width: "130px" },
+    coffee: { path: "/Coffee_cup.svg", width: "130px" },
+    soda: { path: "/Soda.svg", width: "100px" },
+    tea: { path: "/Tea.svg", width: "130px" },
   };
 
   const sweetLevel = [0, 50, 100];
@@ -48,6 +48,9 @@ const OrderProcess = ({ menu }) => {
 
     try {
       const response = await fetcher("/order", requestBody);
+
+      window.localStorage.setItem("orderId", response.id);
+      console.log(window.localStorage);
       clearLoading();
       await axios.post("/api/pusher/new-order", {
         ...response,

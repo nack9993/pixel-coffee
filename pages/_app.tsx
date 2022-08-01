@@ -10,15 +10,20 @@ const MyApp = ({ Component, pageProps }) => {
   const router = useRouter();
 
   const isShowMenu = () => {
-    const path = ["/", "/order/[id]"];
+    const path = ["/", "/order/[id]", "/admin/add"];
 
     return path.includes(router.route);
   };
 
   const menuRoutes = [
-    { name: "Home", icon: "Home.svg", link: "/order" },
-    { name: "History", icon: "History.svg", link: "/history" },
+    { name: "Home", icon: "/Home.svg", link: "/order" },
+    { name: "History", icon: "/History.svg", link: "/history" },
   ];
+
+  if (typeof Notification !== "undefined") {
+    Notification.requestPermission();
+  }
+
   return (
     <>
       <Head>

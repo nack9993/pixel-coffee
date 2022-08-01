@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { useEffect, useState } from "react";
@@ -41,18 +42,26 @@ const History = ({ orders }) => {
   useEffect(() => {
     setOrders(orders);
 
-    const pusher = new Pusher("476d47ea8d47ede8c789", {
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
       cluster: "ap1",
     });
 
     const channel = pusher.subscribe("order");
 
-    channel.bind("order-finished", async () => {
+    channel.bind("order-finished", async ({ id }) => {
+      // Check the order id
+      const orderId = window.localStorage.getItem("orderId");
+
+      if (+orderId === id) {
+        const title = `Order #${id} is finished`;
+        const body =
+          "Your order is already finished. Please check on the kitchen";
+        const notification = new Notification(title, { body });
+
+        window.localStorage.setItem("orderId", "");
+      }
+
       await getOrders();
-      // setChats((prevState) => [
-      //   ...prevState,
-      //   { sender: data.sender, message: data.message },
-      // ]);
     });
 
     channel.bind("new-order", async () => {
@@ -83,7 +92,7 @@ const History = ({ orders }) => {
 
   return (
     <div className="p-4 mb-5 w-full">
-      <div className="text-xl font-bold">History page</div>
+      <div className="text-xl font-bold">Order list</div>
       <hr className=" my-4" />
 
       <div className="lg:flex lg:flex-wrap lg:justify-center">
