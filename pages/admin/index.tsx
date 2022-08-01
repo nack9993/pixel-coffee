@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
+import Link from "next/link";
 import { useState } from "react";
 import fetcher from "../../lib/fetcher";
 import prisma from "../../lib/prisma";
@@ -55,11 +56,11 @@ const Admin = ({ admin }) => {
         </div>
 
         <div className="mt-4">
-          <a href="/admin/add">
+          <Link href="/admin/add">
             <div className="p-4 border w-full text-center rounded-lg bg-primary text-white ">
               Add menu
             </div>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

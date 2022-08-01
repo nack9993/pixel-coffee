@@ -91,26 +91,28 @@ const History = ({ orders }) => {
   };
 
   return (
-    <div className="p-4 mb-5 w-full">
-      <div className="text-xl font-bold">Order list</div>
-      <hr className=" my-4" />
+    <div className="mb-5 w-full relative">
+      <div className="p-4">
+        <div className="text-xl font-bold">Order list</div>
+        <hr className=" my-4" />
 
-      <div className="lg:flex lg:flex-wrap lg:justify-center">
-        {orderList.map((order) => {
-          return (
-            <div key={order.id} className="animate-in fade-in  duration-300">
-              <div className="text-xl font-bold">{loading} </div>
-              <OrderCard
-                order={order}
-                selectedId={selectedId}
-                setSelectedId={setSelectedId}
-                onConfirm={onConfirm}
-              />
-            </div>
-          );
-        })}
-        {loading && <LoadingScreen />}
+        <div className="lg:flex lg:flex-wrap lg:justify-center">
+          {orderList.map((order) => {
+            return (
+              <div key={order.id} className="animate-in fade-in  duration-300">
+                <div className="text-xl font-bold">{loading} </div>
+                <OrderCard
+                  order={order}
+                  selectedId={selectedId}
+                  setSelectedId={setSelectedId}
+                  onConfirm={onConfirm}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
+      {loading && <LoadingScreen />}
     </div>
   );
 };
