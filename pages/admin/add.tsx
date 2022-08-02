@@ -15,7 +15,7 @@ const AddMenu = () => {
   const [menuName, setMenuName] = useState("");
   const addNewMenu = async () => {
     try {
-      await axios.post("/api/coffee/new", {
+      await axios.post("/api/coffee", {
         menuName,
         type: type.type,
       });

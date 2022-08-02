@@ -3,8 +3,9 @@ export default function fetcher(
   data = undefined,
   type = undefined
 ) {
+  const reqType = data ? "POST" : "GET";
   return fetch(`${window.location.origin}/api${url}`, {
-    method: type ?? data ? "POST" : "GET",
+    method: type ?? reqType,
     headers: {
       "Content-Type": "application/json",
     },

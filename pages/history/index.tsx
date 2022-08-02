@@ -52,7 +52,7 @@ const History = ({ orders }) => {
       // Check the order id
       const orderId = window.localStorage.getItem("orderId");
 
-      if (+orderId === id) {
+      if (orderId && +orderId === id) {
         const title = `Order #${id} is finished`;
         const body =
           "Your order is already finished. Please check on the kitchen";

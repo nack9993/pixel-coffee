@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import Router from "next/router";
 import { useState } from "react";
+import BaristaCard from "../../components/baristaCard";
 import Card from "../../components/card";
 import prisma from "../../lib/prisma";
 import coffeeTypes from "../../type/coffeeType.js";
@@ -52,32 +53,30 @@ const Order = ({ menu, admin }) => {
         </div>
       </div>
 
-      <div className="mt-[-12px] px-4">
-        {admin.isAvailable ? (
-          <div className=" bg-success border shadow-[0px_10px_rgb(0,0,0)] h-[90px] p-4 rounded-xl">
-            <div className="flex justify-between text-white ">
-              <div>
-                Barista status
-                <div className="text-xl font-bold">Available</div>
-              </div>
-              <img alt="icon" width="45" src="../Coffee_cup.svg" />
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div className=" bg-primary border shadow-[0px_10px_rgb(0,0,0)] h-[90px] p-4 rounded-xl">
-              <div className="flex justify-between text-white ">
-                <div>
-                  Barista status
-                  <div className="text-xl font-bold">Not available</div>
-                </div>
-                <img alt="icon" width="45" src="../Coffee_cup.svg" />
-              </div>
-            </div>
-          </div>
-        )}
+      <div className="mt-[-12px]  px-4">
+        <BaristaCard isAvailable={admin.isAvailable} isEditable={false} />
       </div>
-      <div className="pt-2 px-4">
+
+      <div className="mt-4">
+        <div className="pl-4 overflow-x-scroll">
+          <div className="space-x-2 inline-flex">
+            {coffeeTypes.map((coffee) => {
+              return (
+                <div
+                  className={`bg-white min-w-[80px] text-center p-1 text-sm rounded-3xl border text-primary cursor-pointer ${
+                    category === coffee.type ? "bg-secondary " : ""
+                  }`}
+                  key={coffee.type}
+                  onClick={() => fitlerCategory(coffee.type)}
+                >
+                  {coffee.name}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+      <div className="px-4">
         {/* <div className="bg-primary text-white rounded-lg">
           <div className="p-2">
             Your order is
@@ -91,26 +90,6 @@ const Order = ({ menu, admin }) => {
           placeholder="Search..."
           onInput={searchMenu}
         />
-      </div>
-
-      <div className="mt-4">
-        <div className="pl-4 overflow-x-scroll">
-          <div className="space-x-2 inline-flex">
-            {coffeeTypes.map((coffee) => {
-              return (
-                <div
-                  className={`bg-white w-[150px] text-center p-2 rounded-3xl border text-primary cursor-pointer ${
-                    category === coffee.type ? "bg-secondary font-bold" : ""
-                  }`}
-                  key={coffee.type}
-                  onClick={() => fitlerCategory(coffee.type)}
-                >
-                  {coffee.name}
-                </div>
-              );
-            })}
-          </div>
-        </div>
       </div>
       <div className="flex mt-4 flex-wrap items-center mx-4 ">
         {menus.map((coffee) => {

@@ -14,4 +14,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(200).json({});
   }
+
+  if (req.method === "DELETE") {
+    try {
+      await prisma.coffee.delete({
+        where: { id: req.body.id },
+      });
+    } catch (e) {
+      console.error(e);
+    }
+
+    return res.status(200).json({ error: false, msg: "Delete menu success" });
+  }
 };

@@ -37,27 +37,33 @@ const OrderCard = ({ order, selectedId, setSelectedId, onConfirm }) => {
           width={50}
           height={50}
         /> */}
-          <div className="rounded-md bg-primary text-white h-[25px] px-2 text-sm">
-            {order.orderBy}
+          <div>
+            <div className="rounded-md bg-primary text-white p-1  text-sm">
+              {order.orderBy}
+            </div>
           </div>
         </div>
         <div className="flex justify-between w-full">
-          <div className="flex w-full">
-            <Image src={icon[order.Coffee.type].path} width={80} height={80} />
+          <div className="flex w-full items-start">
+            <Image src={icon[order.Coffee.type].path} width={90} height={90} />
             <div className="ml-4 w-full">
               <div className="font-bold text-md">{order.Coffee.menuName} </div>
               <div className="text-sm">Hot, Sweet {order.sweet}%</div>
 
+              <div className="text-sm text-gray">
+                <span className="text-xs">Note:</span> {order.optional}
+              </div>
+
               <div className="mt-4 flex justify-between w-full">
                 <button
                   type="button"
-                  className="py-2 px-7 text-gray rounded-xl text-sm "
+                  className="py-1 px-7 text-gray rounded-xl text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
-                  className="py-2 px-10 bg-secondary rounded-xl text-sm border border-primary"
+                  className="py-1 px-10 bg-secondary rounded-xl text-sm border border-primary"
                   onClick={() => {
                     onConfirm(order.id);
                   }}

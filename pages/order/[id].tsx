@@ -1,7 +1,9 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useStoreActions, useStoreState } from "easy-peasy";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import axios from "axios";
 import SearchBar from "../../components/search/base/searchBar";
@@ -11,6 +13,7 @@ import CardMini from "../../components/cardMini";
 import LoadingScreen from "../../components/loadingScreen";
 
 const OrderProcess = ({ menu }) => {
+  // STORE
   const setLoading = useStoreActions((actions: any) => actions.setLoading);
   const clearLoading = useStoreActions((actions: any) => actions.clearLoading);
   const loading = useStoreState((state: any) => state.isLoading);
@@ -27,6 +30,7 @@ const OrderProcess = ({ menu }) => {
   const users = [{ name: "Nack" }, { name: "Kookai" }];
   const [username, setUsername] = useState("");
   const [sweet, setSweet] = useState(0);
+  const [optional, setOptional] = useState("");
 
   const [isUnvalid, setIsUnvalid] = useState(true);
   const [isShowSearch, setIsShowSearch] = useState(false);
@@ -44,13 +48,14 @@ const OrderProcess = ({ menu }) => {
       orderBy: username,
       sweet,
       coffeeId: +router.query.id,
+      optional,
     };
 
     try {
       const response = await fetcher("/order", requestBody);
 
       window.localStorage.setItem("orderId", response.id);
-      console.log(window.localStorage);
+
       clearLoading();
       await axios.post("/api/pusher/new-order", {
         ...response,
@@ -64,9 +69,30 @@ const OrderProcess = ({ menu }) => {
     }
   };
 
+  const deleteCoffee = async () => {
+    setLoading();
+    try {
+      await fetcher("/coffee", { id: menu.id }, "DELETE");
+      // await axios.delete(`/api/coffee/${menu.id}`);
+      clearLoading();
+      router.push({ pathname: "/order" });
+    } catch (error) {
+      clearLoading();
+      console.error(error);
+    }
+  };
+
   return (
     <div className="max-w-[420px] w-full relative h-screen">
-      <div className="flex justify-center items-center min-h-[260px] flex-col bg-secondary ">
+      <div className="flex justify-center items-center min-h-[260px] flex-col bg-secondary relative">
+        <div className="absolute top-2 right-2">
+          <button
+            className="w-[40px] h-[40px] bg-primary text-white rounded-full shadow-lg"
+            onClick={deleteCoffee}
+          >
+            <DeleteIcon />
+          </button>
+        </div>
         <img
           alt="coffee"
           className={`w-[30%] max-w-[${icon[menu.type].width}]`}
@@ -121,6 +147,16 @@ const OrderProcess = ({ menu }) => {
                     })}
                   </div>
                 )}
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <b className="text-xl">Optional note</b>
+              <div className="mt-2">
+                <textarea
+                  className="border w-full p-3 rounded"
+                  onChange={(e) => setOptional(e.target.value)}
+                />
               </div>
             </div>
           </div>
