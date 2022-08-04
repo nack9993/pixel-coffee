@@ -86,10 +86,18 @@ const History = ({ orders }) => {
       );
 
       await axios.post("/api/pusher", { id });
-      await axios.post(
-        "https://hooks.slack.com/services/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",
-        { type: "section", text: { type: "mrkdwn", text: "Test kurb eiei" } }
-      );
+      // await axios.post(
+      //   "https://hooks.slack.com/services/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",
+      //   {
+      //     type: "section",
+      //     text: { type: "mrkdwn", text: "Test kurb eiei" },
+      //   },
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //   }
+      // );
       await getOrders();
     } catch (error) {
       console.error(error);
