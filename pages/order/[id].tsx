@@ -44,6 +44,7 @@ const OrderProcess = ({ menu }) => {
   const submitOrder = async () => {
     setLoading();
 
+    console.log(optional);
     const requestBody = {
       orderBy: username,
       sweet,
