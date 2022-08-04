@@ -18,14 +18,14 @@ model Coffee {
 }
 
 model Order {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  coffeeId  Int?
-  orderBy   String
-  sweet     Int
-  optional  String
-  Coffee    Coffee?  @relation(fields: [coffeeId], references: [id])
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  coffeeId    Int?
+  orderBy     String
+  sweet       Int
+  description String?
+  Coffee      Coffee?  @relation(fields: [coffeeId], references: [id])
 }
 
 model Admin {

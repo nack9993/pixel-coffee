@@ -49,7 +49,7 @@ const OrderProcess = ({ menu }) => {
       orderBy: username,
       sweet,
       coffeeId: +router.query.id,
-      optional,
+      description: optional,
     };
 
     try {
