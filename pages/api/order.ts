@@ -28,15 +28,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       });
       return res.status(200).json(order);
     } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        // The .code property can be accessed in a type-safe manner
-        if (e.code === "P2002") {
-          console.log(
-            "There is a unique constraint violation, a new user cannot be created with this email"
-          );
-        }
-      }
-      throw e;
+      // if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      //   // The .code property can be accessed in a type-safe manner
+      //   if (e.code === "P2002") {
+      //     console.log(
+      //       "There is a unique constraint violation, a new user cannot be created with this email"
+      //     );
+      //   }
+      // }
+      // throw e;
+
+      return res.status(e.code).json({ message: e.message });
     }
 
     // return res.status(200).json(order);
