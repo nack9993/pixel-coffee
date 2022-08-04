@@ -25,11 +25,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       order = await prisma.order.create({
         data: req.body,
       });
-      console.log(order);
+      return res.status(200).json(order);
     } catch (e) {
-      console.error(e);
+      return res.status(400).json({ error: "Error" });
     }
 
-    return res.status(200).json(order);
+    // return res.status(200).json(order);
   }
 };
