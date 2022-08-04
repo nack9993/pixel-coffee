@@ -27,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       });
       return res.status(200).json(order);
     } catch (e) {
-      return res.status(400).json({ error: "Error" });
+      return res.status(400).json(e);
     }
 
     // return res.status(200).json(order);
