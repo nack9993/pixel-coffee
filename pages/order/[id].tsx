@@ -54,6 +54,8 @@ const OrderProcess = ({ menu }) => {
     try {
       const response = await fetcher("/order", requestBody);
 
+      console.log(response);
+
       window.localStorage.setItem("orderId", response.id);
 
       clearLoading();
