@@ -62,7 +62,7 @@ const OrderProcess = ({ menu }) => {
         ...{ Coffee: menu },
         ...{ new: true },
       });
-      router.push({ pathname: "/history" });
+      // router.push({ pathname: "/history" });
     } catch (error) {
       clearLoading();
       console.error(error);
