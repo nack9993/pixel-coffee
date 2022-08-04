@@ -4,7 +4,7 @@ import prisma from "../../lib/prisma";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
-    let orders;
+    let orders = {};
     try {
       orders = await prisma.order.findMany({
         include: {
@@ -19,9 +19,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === "POST") {
-    let order;
+    let order = {};
     try {
-      await prisma.order.create({
+      order = await prisma.order.create({
         data: req.body,
       });
     } catch (e) {
