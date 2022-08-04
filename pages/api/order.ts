@@ -21,24 +21,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === "POST") {
     let order = {};
-    console.log(req.body);
     try {
       order = await prisma.order.create({
         data: req.body,
       });
       return res.status(200).json(order);
     } catch (e) {
-      // if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      //   // The .code property can be accessed in a type-safe manner
-      //   if (e.code === "P2002") {
-      //     console.log(
-      //       "There is a unique constraint violation, a new user cannot be created with this email"
-      //     );
-      //   }
-      // }
-      // throw e;
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        console.log(e.message);
+        // The .code property can be accessed in a type-safe manner
+        if (e.code === "P2002") {
+          console.log(
+            "There is a unique constraint violation, a new user cannot be created with this email"
+          );
+        }
+      }
 
-      return res.status(e.code).json({ message: e.message });
+      return res.status(500).json({ message: e.message });
     }
 
     // return res.status(200).json(order);
