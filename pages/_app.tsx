@@ -27,8 +27,7 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        {" "}
-        <title>PIXEL CAFE</title>
+        <link rel="manifest" href="/manifest.json" /> <title>PIXEL CAFE</title>
       </Head>
       <StoreProvider store={store}>
         <div className="flex justify-center items-center h-screen  relative flex-col bg-primary ">
