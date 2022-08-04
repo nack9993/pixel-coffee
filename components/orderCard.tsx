@@ -51,7 +51,7 @@ const OrderCard = ({ order, selectedId, setSelectedId, onConfirm }) => {
               <div className="text-sm">Hot, Sweet {order.sweet}%</div>
 
               <div className="text-sm text-gray">
-                <span className="text-xs">Note:</span> {order.optional}
+                <span className="text-xs">Note:</span> {order.description}
               </div>
 
               <div className="mt-4 flex justify-between w-full">
