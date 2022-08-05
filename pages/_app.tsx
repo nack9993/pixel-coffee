@@ -31,7 +31,7 @@ const MyApp = ({ Component, pageProps }) => {
       </Head>
       <StoreProvider store={store}>
         <div className="flex justify-center items-center h-screen  relative flex-col bg-primary ">
-          <div className="w-[390px] bg-white min-h-screen overflow-auto">
+          <div className="w-[390px] bg-white min-h-screen overflow-auto h-full pb-[140px]">
             <Component {...pageProps} />
           </div>
           {!isShowMenu() && (

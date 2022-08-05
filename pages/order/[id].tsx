@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ArrowBack from "@mui/icons-material/ArrowBack";
 
 import axios from "axios";
 import SearchBar from "../../components/search/base/searchBar";
@@ -27,18 +28,15 @@ const OrderProcess = ({ menu }) => {
 
   const sweetLevel = [0, 50, 100];
 
-  const users = [{ name: "Nack" }, { name: "Kookai" }];
   const [username, setUsername] = useState("");
   const [sweet, setSweet] = useState(0);
   const [optional, setOptional] = useState("");
 
   const [isUnvalid, setIsUnvalid] = useState(true);
-  const [isShowSearch, setIsShowSearch] = useState(false);
 
   const searchUsername = (name) => {
     setUsername(name);
     setIsUnvalid(!name);
-    setIsShowSearch(!name);
   };
 
   const submitOrder = async () => {
@@ -53,8 +51,6 @@ const OrderProcess = ({ menu }) => {
 
     try {
       const response = await fetcher("/order", requestBody);
-
-      console.log(response);
 
       window.localStorage.setItem("orderId", response.id);
 
@@ -85,11 +81,21 @@ const OrderProcess = ({ menu }) => {
   };
 
   return (
-    <div className="max-w-[420px] w-full relative h-screen">
+    <div className="max-w-[420px] w-full relative">
       <div className="flex justify-center items-center min-h-[260px] flex-col bg-secondary relative">
-        <div className="absolute top-2 right-2">
+        <div className="absolute top-2 left-2">
           <button
             className="w-[40px] h-[40px] bg-primary text-white rounded-full shadow-lg"
+            onClick={() => {
+              window.history.back();
+            }}
+          >
+            <ArrowBack />
+          </button>
+        </div>
+        <div className="absolute top-2 right-2">
+          <button
+            className="w-[40px] h-[40px] bg-error text-white rounded-full shadow-lg"
             onClick={deleteCoffee}
           >
             <DeleteIcon />
@@ -125,7 +131,7 @@ const OrderProcess = ({ menu }) => {
               <b className="text-xl">Order by</b>
               <div className="mt-2">
                 <SearchBar onSubmit={(name) => searchUsername(name)} />
-                {isShowSearch ? (
+                {/* {isShowSearch ? (
                   ""
                 ) : (
                   <div className="rounded shadow-lg">
@@ -148,7 +154,7 @@ const OrderProcess = ({ menu }) => {
                       );
                     })}
                   </div>
-                )}
+                )} */}
               </div>
             </div>
 
@@ -165,7 +171,7 @@ const OrderProcess = ({ menu }) => {
         </div>
       </div>
 
-      <div className="fixed bottom-[15px]  flex justify-center items-center w-[390px]">
+      <div className="fixed bottom-[20px]  flex justify-center items-center w-[390px]">
         <button
           disabled={isUnvalid}
           type="submit"

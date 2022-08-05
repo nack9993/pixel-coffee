@@ -49,20 +49,19 @@ const History = ({ orders }) => {
     const channel = pusher.subscribe("order");
 
     channel.bind("order-finished", async ({ id }) => {
-      // Check the order id
-      // const orderId = window.localStorage.getItem("orderId");
+      const orderId = window.localStorage.getItem("orderId");
 
-      // if (orderId && +orderId === id) {
-      //   const title = `Order #${id} is finished`;
-      //   const body =
-      //     "Your order is already finished. Please check on the kitchen";
+      if (orderId && +orderId === id) {
+        const title = `Order #${id} is finished`;
+        const body =
+          "Your order is already finished. Please check on the kitchen";
 
-      //   alert(typeof Notification);
-      //   if (typeof Notification === "undefined") return;
-      //   const notification = new Notification(title, { body });
+        if (typeof Notification !== "undefined") {
+          const notification = new Notification(title, { body });
+        }
 
-      //   window.localStorage.setItem("orderId", "");
-      // }
+        window.localStorage.setItem("orderId", "");
+      }
 
       await getOrders();
     });
@@ -109,7 +108,7 @@ const History = ({ orders }) => {
   };
 
   return (
-    <div className="mb-5 w-full relative">
+    <div className="w-full relative">
       <div className="p-4">
         <div className="text-xl font-bold">Order list</div>
         <hr className=" my-4" />

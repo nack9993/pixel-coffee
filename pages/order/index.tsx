@@ -11,8 +11,6 @@ const Order = ({ menu, admin }) => {
   const [menus, setMenus] = useState(menu);
   const [category, setCategory] = useState("");
 
-  console.log(admin);
-
   const handleClick = (id) => {
     Router.push(`/order/${id}`);
   };
@@ -46,7 +44,7 @@ const Order = ({ menu, admin }) => {
   };
 
   return (
-    <div className="relative mb-[80px]">
+    <div className="relative">
       <div className=" text-white bg-secondary h-[130px]  px-4 flex justify-center items-center">
         <div className="pt-4 ">
           <div className="text-5xl font-bold text-primary">PIXEL CAFE</div>
@@ -57,13 +55,13 @@ const Order = ({ menu, admin }) => {
         <BaristaCard isAvailable={admin.isAvailable} isEditable={false} />
       </div>
 
-      <div className="mt-4">
+      <div className="mt-6">
         <div className="pl-4 overflow-x-scroll">
           <div className="space-x-2 inline-flex">
             {coffeeTypes.map((coffee) => {
               return (
                 <div
-                  className={`bg-white min-w-[80px] text-center p-1 text-sm rounded-3xl border text-primary cursor-pointer ${
+                  className={`bg-white min-w-[110px] text-center p-1 text-sm rounded-3xl border text-primary cursor-pointer ${
                     category === coffee.type ? "bg-secondary " : ""
                   }`}
                   key={coffee.type}

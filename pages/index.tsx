@@ -17,7 +17,7 @@ const Home = () => {
           className="p-4 px-24 bg-secondary  rounded-md text-white font-bold shadow-[0px_10px_rgb(0,0,0)] border border-primary"
           onClick={handleClick}
         >
-          Let order
+          {`Let's order`}
         </button>
       </div>
     </div>

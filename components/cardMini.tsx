@@ -4,7 +4,7 @@ const cardMini = (props) => {
   const { selectedCard, item, isSelected } = props;
   return (
     <div
-      className={`cursor-pointer min-w-[110px]  relative bg-white  border rounded-xl shadow-[0px_10px_rgb(0,0,0)] transition-all hover:bg-secondary ${
+      className={`cursor-pointer min-w-[110px]  relative bg-white  border rounded-xl shadow-[0px_10px_rgb(0,0,0)] transition-all ${
         isSelected && "bg-secondary"
       }`}
       onClick={() => {
