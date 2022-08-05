@@ -81,7 +81,7 @@ const OrderProcess = ({ menu }) => {
   };
 
   return (
-    <div className="max-w-[420px] w-full relative">
+    <div className="max-w-[420px] w-full relative h-[850px]">
       <div className="flex justify-center items-center min-h-[260px] flex-col bg-secondary relative">
         <div className="absolute top-2 left-2">
           <button
@@ -183,7 +183,7 @@ const OrderProcess = ({ menu }) => {
           Order now
         </button>
       </div>
-      {loading && <LoadingScreen />}
+      <LoadingScreen />
     </div>
   );
 };

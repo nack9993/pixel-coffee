@@ -30,8 +30,8 @@ const MyApp = ({ Component, pageProps }) => {
         <link rel="manifest" href="/manifest.json" /> <title>PIXEL CAFE</title>
       </Head>
       <StoreProvider store={store}>
-        <div className="flex justify-center items-center h-screen  relative flex-col bg-primary ">
-          <div className="w-[390px] bg-white min-h-screen overflow-auto h-full pb-[140px]">
+        <div className="flex justify-center items-center relative flex-col bg-primary ">
+          <div className="w-[390px] bg-white min-h-screen overflow-auto h-full ">
             <Component {...pageProps} />
           </div>
           {!isShowMenu() && (

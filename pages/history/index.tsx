@@ -108,7 +108,7 @@ const History = ({ orders }) => {
   };
 
   return (
-    <div className="w-full relative">
+    <div className="w-full relative ">
       <div className="p-4">
         <div className="text-xl font-bold">Order list</div>
         <hr className=" my-4" />
