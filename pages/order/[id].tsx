@@ -183,7 +183,7 @@ const OrderProcess = ({ menu }) => {
           Order now
         </button>
       </div>
-      <LoadingScreen />
+      {loading && <LoadingScreen />}
     </div>
   );
 };

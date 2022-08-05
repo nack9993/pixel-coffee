@@ -4,6 +4,8 @@ import { StoreProvider } from "easy-peasy";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import "../styles/globals.css";
+// import * as PusherPushNotifications from "@pusher/push-notifications-web";
+// import { useEffect } from "react";
 import store from "../lib/store";
 
 const MyApp = ({ Component, pageProps }) => {
@@ -23,6 +25,33 @@ const MyApp = ({ Component, pageProps }) => {
   if (typeof Notification !== "undefined") {
     Notification.requestPermission();
   }
+
+  // const checkMe = () => {
+  //   window.navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
+  //     const beamsClient = new PusherPushNotifications.Client({
+  //       instanceId: "fe2304a2-0664-499f-87a0-f33aa193e9d1",
+  //       serviceWorkerRegistration,
+  //     });
+
+  //     beamsClient
+  //       .start()
+  //       .then((beamsClients: any) => beamsClients.getDeviceId())
+  //       .then((deviceId) =>
+  //         console.log(
+  //           "Successfully registered with Beams. Device ID:",
+  //           deviceId
+  //         )
+  //       )
+  //       .then(() => beamsClient.addDeviceInterest("hello"))
+  //       .then(() => beamsClient.getDeviceInterests())
+  //       .then((interests) => console.log("Current interests:", interests))
+  //       .catch(console.error);
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   checkMe();
+  // });
 
   return (
     <>

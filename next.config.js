@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const withPWA = require("next-pwa");
+// const withTM = require("next-transpile-modules")([
+//   "@pusher/push-notifications-web",
+// ]);
 const runtimeCaching = require("next-pwa/cache");
 
 const nextConfig = {

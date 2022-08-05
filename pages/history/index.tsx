@@ -99,8 +99,26 @@ const History = ({ orders }) => {
       //   }
       // );
 
-      const noti = new Notification("Hi", { body: "Hi, nack" });
-      console.log(noti);
+      // navigator.serviceWorker.ready.then((registration) => {
+      //   registration.showNotification("Successfully subscribed!", {
+      //     body: "You successfully subscribed to our Notification service!",
+      //     icon: "/coffee.png",
+      //     dir: "ltr",
+      //     lang: "en-US",
+      //     tag: "confirm-notification",
+      //     actions: [
+      //       {
+      //         action: "confirm",
+      //         title: "Okay",
+      //       },
+      //       {
+      //         action: "cancel",
+      //         title: "Cancel",
+      //       },
+      //     ],
+      //   });
+      // });
+
       await getOrders();
     } catch (error) {
       console.error(error);
