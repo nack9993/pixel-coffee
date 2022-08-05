@@ -48,7 +48,7 @@ const AddMenu = () => {
 
         <section className="mt-4">
           <div className="text-xl font-bold mb-2">Type</div>
-          <div className="flex justify-between">
+          <div className="flex justify-between space-x-2">
             {coffeeTypes.map((coffee) => (
               <CardMini
                 isSelected={type.type === coffee.type}
@@ -62,9 +62,9 @@ const AddMenu = () => {
         </section>
       </div>
 
-      <div className=" absolute bottom-10 w-full flex justify-center">
+      <div className=" absolute bottom-5 w-full flex justify-center">
         <div
-          className="p-4 border w-[260px] text-center rounded-lg bg-secondary  text-primary shadow-[0px_10px_rgb(0,0,0)] cursor-pointer"
+          className="p-4 border w-[350px] text-center rounded-lg bg-secondary  text-primary shadow-[0px_10px_rgb(0,0,0)] cursor-pointer"
           onClick={() => addNewMenu()}
         >
           Add menu

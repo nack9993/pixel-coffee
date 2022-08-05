@@ -47,12 +47,29 @@ const OrderCard = ({ order, selectedId, setSelectedId, onConfirm }) => {
           <div className="flex w-full items-start">
             <Image src={icon[order.Coffee.type].path} width={90} height={90} />
             <div className="ml-4 w-full">
-              <div className="font-bold text-md">{order.Coffee.menuName} </div>
-              <div className="text-sm">Hot, Sweet {order.sweet}%</div>
+              <div className="font-bold">
+                {order.type && (
+                  <span
+                    className={`mr-1 ${
+                      order.type === "Hot" ? "text-error" : "text-info"
+                    } text-sm`}
+                  >
+                    ({order.type})
+                  </span>
+                )}
 
-              <div className="text-sm text-gray">
-                <span className="text-xs">Note:</span> {order.description}
+                <span className="font-bold text-xd">
+                  {" "}
+                  {order.Coffee.menuName}{" "}
+                </span>
               </div>
+              <div className="text-sm">Sweet {order.sweet}%</div>
+
+              {order.description && (
+                <div className="text-sm text-gray">
+                  <span className="text-xs">Note:</span> {order.description}
+                </div>
+              )}
 
               <div className="mt-4 flex justify-between w-full">
                 <button

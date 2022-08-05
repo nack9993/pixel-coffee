@@ -21,9 +21,9 @@ const OrderProcess = ({ menu }) => {
   const router = useRouter();
 
   const icon = {
-    coffee: { path: "/Coffee_cup.svg", width: "130px" },
-    soda: { path: "/Soda.svg", width: "100px" },
-    tea: { path: "/Tea.svg", width: "130px" },
+    coffee: { path: "/Coffee_cup.svg", width: 60 },
+    soda: { path: "/Soda.svg", width: 40 },
+    tea: { path: "/Tea.svg", width: 60 },
   };
 
   const sweetLevel = [0, 50, 100];
@@ -31,12 +31,12 @@ const OrderProcess = ({ menu }) => {
   const [username, setUsername] = useState("");
   const [sweet, setSweet] = useState(0);
   const [optional, setOptional] = useState("");
-
-  const [isUnvalid, setIsUnvalid] = useState(true);
+  const [type, setType] = useState(menu.type === "coffee" ? "Hot" : null);
+  const [isInvalid, setIsInvalid] = useState(true);
 
   const searchUsername = (name) => {
     setUsername(name);
-    setIsUnvalid(!name);
+    setIsInvalid(!name);
   };
 
   const submitOrder = async () => {
@@ -47,6 +47,7 @@ const OrderProcess = ({ menu }) => {
       sweet,
       coffeeId: +router.query.id,
       description: optional,
+      type,
     };
 
     try {
@@ -81,8 +82,8 @@ const OrderProcess = ({ menu }) => {
   };
 
   return (
-    <div className="max-w-[420px] w-full relative h-[850px]">
-      <div className="flex justify-center items-center min-h-[260px] flex-col bg-secondary relative">
+    <div className="max-w-[420px] w-full relative h-[960px]">
+      <div className="flex justify-center items-center min-h-[280px] flex-col bg-secondary relative">
         <div className="absolute top-2 left-2">
           <button
             className="w-[40px] h-[40px] bg-primary text-white rounded-full shadow-lg"
@@ -114,9 +115,24 @@ const OrderProcess = ({ menu }) => {
           <hr className="mt-4" />
 
           <div>
-            <div>
-              <b className="text-lg mt-2">Sweetness</b>
-              <div className="flex mt-4  justify-between">
+            {menu.type === "coffee" && (
+              <div>
+                <b className="text-lg mt-2">Type</b>
+                <div className="flex mt-4  justify-between space-x-2">
+                  {[{ type: "Hot" }, { type: "Iced" }].map((orderType) => (
+                    <CardMini
+                      key={orderType.type}
+                      isSelected={type === orderType.type}
+                      item={orderType.type}
+                      selectedCard={setType}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+            <div className="mt-4">
+              <b className="text-lg">Sweetness</b>
+              <div className="flex mt-2 justify-between space-x-2">
                 {sweetLevel.map((s) => (
                   <CardMini
                     key={s}
@@ -173,7 +189,7 @@ const OrderProcess = ({ menu }) => {
 
       <div className="fixed bottom-[20px]  flex justify-center items-center w-[390px]">
         <button
-          disabled={isUnvalid}
+          disabled={isInvalid}
           type="submit"
           className=" w-11/12 p-4 bg-secondary rounded-2xl disabled:bg-gray shadow-[0px_10px_rgb(0,0,0)]"
           onClick={() => {

@@ -25,6 +25,7 @@ model Order {
   orderBy     String
   sweet       Int
   description String?
+  type        String?
   Coffee      Coffee?  @relation(fields: [coffeeId], references: [id])
 }
 
