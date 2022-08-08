@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { useEffect, useState } from "react";
@@ -8,8 +7,6 @@ import LoadingScreen from "../../components/loadingScreen";
 import OrderCard from "../../components/orderCard";
 import fetcher from "../../lib/fetcher";
 import prisma from "../../lib/prisma";
-
-let isLoadData = false;
 
 const History = ({ orders }) => {
   const setOrders = useStoreActions((actions: any) => actions.setOrders);
@@ -24,18 +21,15 @@ const History = ({ orders }) => {
   // const [orderList, setOrderList] = useState([]);
 
   const getOrders = async () => {
-    if (isLoadData) return;
     setLoading(true);
-    isLoadData = true;
+
     try {
       const response = await fetcher("/order");
       setOrders(response);
       clearLoading();
-      isLoadData = false;
     } catch (error) {
       console.error(error);
       clearLoading();
-      isLoadData = false;
     }
   };
 
@@ -48,25 +42,12 @@ const History = ({ orders }) => {
 
     const channel = pusher.subscribe("order");
 
-    channel.bind("order-finished", async ({ id }) => {
-      const orderId = window.localStorage.getItem("orderId");
-
-      if (orderId && +orderId === id) {
-        const title = `Order #${id} is finished`;
-        const body =
-          "Your order is already finished. Please check on the kitchen";
-
-        if (typeof Notification !== "undefined") {
-          const notification = new Notification(title, { body });
-        }
-
-        window.localStorage.setItem("orderId", "");
-      }
-
+    channel.bind("order-finished", async () => {
       await getOrders();
     });
 
-    channel.bind("new-order", async () => {
+    channel.bind("new-order", async (coffee) => {
+      console.log(coffee);
       await getOrders();
     });
 
@@ -86,38 +67,24 @@ const History = ({ orders }) => {
       );
 
       await axios.post("/api/pusher", { id });
-      // await axios.post(
-      //   "https://hooks.slack.com/services/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",
-      //   {
-      //     type: "section",
-      //     text: { type: "mrkdwn", text: "Test kurb eiei" },
-      //   },
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //   }
-      // );
 
-      // navigator.serviceWorker.ready.then((registration) => {
-      //   registration.showNotification("Successfully subscribed!", {
-      //     body: "You successfully subscribed to our Notification service!",
-      //     icon: "/coffee.png",
-      //     dir: "ltr",
-      //     lang: "en-US",
-      //     tag: "confirm-notification",
-      //     actions: [
-      //       {
-      //         action: "confirm",
-      //         title: "Okay",
-      //       },
-      //       {
-      //         action: "cancel",
-      //         title: "Cancel",
-      //       },
-      //     ],
-      //   });
-      // });
+      await getOrders();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onCancel = async (id) => {
+    try {
+      await fetcher(
+        "/finished",
+        {
+          id,
+        },
+        "DELETE"
+      );
+
+      await axios.post("/api/pusher", { id });
 
       await getOrders();
     } catch (error) {
@@ -141,6 +108,7 @@ const History = ({ orders }) => {
                   selectedId={selectedId}
                   setSelectedId={setSelectedId}
                   onConfirm={onConfirm}
+                  onCancel={onCancel}
                 />
               </div>
             );

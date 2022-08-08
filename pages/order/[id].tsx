@@ -26,7 +26,7 @@ const OrderProcess = ({ menu }) => {
     tea: { path: "/Tea.svg", width: 60 },
   };
 
-  const sweetLevel = [0, 50, 100];
+  const sweetLevel = [0, 25, 50, 100];
 
   const [username, setUsername] = useState("");
   const [sweet, setSweet] = useState(0);
@@ -119,14 +119,16 @@ const OrderProcess = ({ menu }) => {
               <div>
                 <b className="text-lg mt-2">Type</b>
                 <div className="flex mt-4  justify-between space-x-2">
-                  {[{ type: "Hot" }, { type: "Iced" }].map((orderType) => (
-                    <CardMini
-                      key={orderType.type}
-                      isSelected={type === orderType.type}
-                      item={orderType.type}
-                      selectedCard={setType}
-                    />
-                  ))}
+                  {[{ type: "Hot" }, { type: "Iced" }, { type: "Frappe" }].map(
+                    (orderType) => (
+                      <CardMini
+                        key={orderType.type}
+                        isSelected={type === orderType.type}
+                        item={orderType.type}
+                        selectedCard={setType}
+                      />
+                    )
+                  )}
                 </div>
               </div>
             )}

@@ -4,14 +4,14 @@ const cardMini = (props) => {
   const { selectedCard, item, isSelected } = props;
   return (
     <div
-      className={`cursor-pointer min-w-[90px] w-full relative bg-white  border rounded-xl shadow-[0px_10px_rgb(0,0,0)] transition-all ${
-        isSelected && "bg-secondary"
+      className={`cursor-pointer min-w-[80px] w-full relative bg-white  border rounded-xl shadow-[0px_10px_rgb(0,0,0)] transition-all ${
+        isSelected && "bg-secondary  shadow-[0px_0px_rgb(0,0,0)]"
       }`}
       onClick={() => {
         selectedCard(item);
       }}
     >
-      <div className="p-2 min-h-[90px] flex flex-col justify-center items-center">
+      <div className="p-2 min-h-[80px] flex flex-col justify-center items-center">
         <h1 className="font-bold mt-2 text-xl">{item}</h1>
       </div>
     </div>

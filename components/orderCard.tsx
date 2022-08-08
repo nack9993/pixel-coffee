@@ -1,6 +1,12 @@
 import Image from "next/image";
 
-const OrderCard = ({ order, selectedId, setSelectedId, onConfirm }) => {
+const OrderCard = ({
+  order,
+  selectedId,
+  setSelectedId,
+  onConfirm,
+  onCancel,
+}) => {
   const icon = {
     coffee: { path: "/../Coffee_cup.svg" },
     soda: { path: "/../Soda.svg" },
@@ -8,7 +14,7 @@ const OrderCard = ({ order, selectedId, setSelectedId, onConfirm }) => {
   };
 
   return (
-    <div key={order.id} className="animate-in slide-in-from-left-75  lg:m-4">
+    <div key={order.id} className="animate-in slide-in-from-left-75  lg:m-4 ">
       <div
         role="menuitem"
         className={`p-4 mb-5 rounded-lg border border-gray  shadow-[0px_10px_rgb(0,0,0)] ${
@@ -66,7 +72,7 @@ const OrderCard = ({ order, selectedId, setSelectedId, onConfirm }) => {
               <div className="text-sm">Sweet {order.sweet}%</div>
 
               {order.description && (
-                <div className="text-sm text-gray">
+                <div className="text-sm text-gray break-words max-w-[250px]">
                   <span className="text-xs">Note:</span> {order.description}
                 </div>
               )}
@@ -75,6 +81,9 @@ const OrderCard = ({ order, selectedId, setSelectedId, onConfirm }) => {
                 <button
                   type="button"
                   className="py-1 px-7 text-gray rounded-xl text-xs"
+                  onClick={() => {
+                    onCancel(order.id);
+                  }}
                 >
                   Cancel
                 </button>

@@ -1,15 +1,18 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/button-has-type */
 /* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
 import { StoreProvider } from "easy-peasy";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import "../styles/globals.css";
-// import * as PusherPushNotifications from "@pusher/push-notifications-web";
-// import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Pusher from "pusher-js";
 import store from "../lib/store";
-// import { useEffect } from "react";
+import Modal from "../components/modal";
 
 const MyApp = ({ Component, pageProps }) => {
+  const [showModal, setShowModal] = useState(false);
   const router = useRouter();
 
   const isShowMenu = () => {
@@ -27,55 +30,31 @@ const MyApp = ({ Component, pageProps }) => {
     Notification.requestPermission();
   }
 
-  // const checkMe = () => {
-  //   window.navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
-  //     return serviceWorkerRegistration.pushManager
-  //       .getSubscription()
-  //       .then(async (subscription) => {
-  //         if (subscription) {
-  //           // const endpoint = subscription.endpoint;
-  //           // console.log(endpoint);
-  //           return subscription;
-  //         }
-  //         // alert('Hi')
-  //         // registration part
-  //       });
-  //     // .then((subscription) => {
-  //     //   const response = fetch("./vapidPublicKey");
-  //     //   const vapidPublicKey = response.text();
-  //     //   const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+  useEffect(() => {
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
+      cluster: "ap1",
+    });
 
-  //     //   return serviceWorkerRegistration.pushManager.subscribe({
-  //     //     userVisibleOnly: true,
-  //     //     applicationServerKey: convertedVapidKey,
-  //     //   });
-  //     //   // subscription part
-  //     // });
-  //     //   const beamsClient = new PusherPushNotifications.Client({
-  //     //     instanceId: "fe2304a2-0664-499f-87a0-f33aa193e9d1",
-  //     //     serviceWorkerRegistration,
-  //     //   });
+    const channel = pusher.subscribe("order");
 
-  //     //   beamsClient
-  //     //     .start()
-  //     //     .then((beamsClients: any) => beamsClients.getDeviceId())
-  //     //     .then((deviceId) =>
-  //     //       console.log(
-  //     //         "Successfully registered with Beams. Device ID:",
-  //     //         deviceId
-  //     //       )
-  //     //     )
-  //     //     .then(() => beamsClient.addDeviceInterest("hello"))
-  //     //     .then(() => beamsClient.getDeviceInterests())
-  //     //     .then((interests) => console.log("Current interests:", interests))
-  //     //     .catch(console.error);
-  //     // });
-  //   });
-  // };
+    channel.bind("order-finished", async ({ id }) => {
+      const orderId = window.localStorage.getItem("orderId");
 
-  // useEffect(() => {
-  //   checkMe();
-  // });
+      if (orderId && +orderId === id) {
+        const title = `Order #${id} is finished`;
+        const body =
+          "Your order is already finished. Please check on the kitchen";
+
+        setShowModal(true);
+
+        if (typeof Notification !== "undefined") {
+          const notification = new Notification(title, { body });
+        }
+
+        window.localStorage.setItem("orderId", "");
+      }
+    });
+  });
 
   return (
     <>
@@ -116,6 +95,7 @@ const MyApp = ({ Component, pageProps }) => {
             </div>
           )}
         </div>
+        <Modal showModal={showModal} setShowModal={setShowModal} />
       </StoreProvider>
     </>
   );
