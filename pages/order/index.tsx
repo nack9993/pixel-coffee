@@ -51,9 +51,17 @@ const Order = ({ menu, admin }) => {
         </div>
       </div>
 
-      <div className="mt-[-12px]  px-4">
+      <div className="mt-[-12px] px-4">
         <BaristaCard isAvailable={admin.isAvailable} isEditable={false} />
       </div>
+
+      {/* <div className="mt-[12px] px-4">
+        <div className="bg-primary text-white rounded-lg">
+          <div className="p-2">
+            Your order is <div className="text-3xl">Americano</div>
+          </div>
+        </div>
+      </div> */}
 
       <div className="mt-6">
         <div className="pl-4 overflow-x-scroll">
@@ -75,13 +83,6 @@ const Order = ({ menu, admin }) => {
         </div>
       </div>
       <div className="px-4">
-        {/* <div className="bg-primary text-white rounded-lg">
-          <div className="p-2">
-            Your order is
-            <img alt="icon" width="60" src="../Coffee_cup.svg" />
-          </div>
-        </div> */}
-
         <input
           className="mt-5 w-full p-2 border rounded-lg"
           type="text"

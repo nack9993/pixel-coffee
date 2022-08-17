@@ -115,23 +115,23 @@ const OrderProcess = ({ menu }) => {
           <hr className="mt-4" />
 
           <div>
-            {menu.type === "coffee" && (
-              <div>
-                <b className="text-lg mt-2">Type</b>
-                <div className="flex mt-4  justify-between space-x-2">
-                  {[{ type: "Hot" }, { type: "Iced" }, { type: "Frappe" }].map(
-                    (orderType) => (
-                      <CardMini
-                        key={orderType.type}
-                        isSelected={type === orderType.type}
-                        item={orderType.type}
-                        selectedCard={setType}
-                      />
-                    )
-                  )}
-                </div>
+            {/* {menu.type === "coffee" && ( */}
+            <div>
+              <b className="text-lg mt-2">Type</b>
+              <div className="flex mt-4  justify-between space-x-2">
+                {[{ type: "Hot" }, { type: "Iced" }, { type: "Frappe" }].map(
+                  (orderType) => (
+                    <CardMini
+                      key={orderType.type}
+                      isSelected={type === orderType.type}
+                      item={orderType.type}
+                      selectedCard={setType}
+                    />
+                  )
+                )}
               </div>
-            )}
+            </div>
+            {/* )} */}
             <div className="mt-4">
               <b className="text-lg">Sweetness</b>
               <div className="flex mt-2 justify-between space-x-2">
